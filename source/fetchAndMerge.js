@@ -20,20 +20,25 @@
  * @returns {Promise<Object>} - Промис, который разрешается в объединенный объект с данными.
  */
 const fetchAndMergeData = async urls => {
+    if (!Array.isArray(urls)) {
+        return {};
+    }
+
     const promises = urls.map(url => fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            return response.json()
+            return response.json();
         })
         .catch(error => {
-            return null
+            console.log(error);
+            return null;
         }));
     const data = await Promise.all(promises);
 
     const result = data.reduce((acc, obj) => {
-        if (obj === null) return acc;
+        if (!obj) return acc;
 
         Object.entries(obj).forEach(([key, value]) => {
             if (!acc[key]) {
