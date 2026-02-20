@@ -158,3 +158,4 @@ QUnit.module("Тестируем функцию fetchAndMerge", function() {
         assert.deepEqual(result, expected, "Должнен правильно продолжить чтение");
     });
 });
+

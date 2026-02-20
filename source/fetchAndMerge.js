@@ -67,3 +67,4 @@ const fetchAndMergeData = async urls => {
 
     return result;
 }
+
