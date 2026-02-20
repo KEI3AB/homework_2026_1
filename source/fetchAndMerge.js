@@ -48,19 +48,22 @@ const fetchAndMergeData = async urls => {
         }));
     const data = await Promise.all(promises);
 
-    const result = data.reduce((acc, obj) => {
+    const setsStorage = data.reduce((acc, obj) => {
         if (!obj) return acc;
 
         Object.entries(obj).forEach(([key, value]) => {
             if (!acc[key]) {
-                acc[key] = [ value ];
-            } else if (!acc[key].includes(value)) {
-                acc[key].push(value);
+                acc[key] = new Set();
             }
+            acc[key].add(value);
         });
 
         return acc;
     }, {});
+
+    const result = Object.fromEntries(
+        Object.entries(setsStorage).map(([key, set]) => [key, Array.from(set)])
+    );
 
     return result;
 }
